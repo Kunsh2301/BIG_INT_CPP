@@ -127,6 +127,7 @@ BigInt BigInt::operator+(const BigInt& other) const{
     if(digits==other.digits){
         result.digits.push_back(0);
         result.isNegative=false;
+        return result;
     }
     const BigInt& larger=thisislarge?*this:other;
     const BigInt& smaller=thisislarge?other:*this;
@@ -149,4 +150,67 @@ BigInt BigInt::operator+(const BigInt& other) const{
     result.Normalize();
     return result;
 }
-
+BigInt BigInt::operator-(const BigInt& other) const{
+    BigInt result;
+    result.digits.clear();
+    bool thisislarge=false;
+    if(other.isNegative==isNegative){
+        if(digits.size() != other.digits.size()){
+            thisislarge=digits.size()>other.digits.size();
+        }
+        else{
+            for(int i=digits.size()-1;i>=0;i--){
+                if(digits[i]!=other.digits[i]){
+                    thisislarge=digits[i]>other.digits[i];
+                    break;
+                }
+            }
+        }
+        if(digits==other.digits){
+            result.isNegative=false;
+            result.digits.push_back(0);
+            return result;
+        }
+        BigInt larger=thisislarge?*this:other;
+        BigInt smaller=thisislarge?other:*this;
+        int borrow=0;
+        for(int i=0;i<larger.digits.size();i++){
+            int diff=larger.digits[i]-borrow;
+            if(i<smaller.digits.size()){
+                diff-=smaller.digits[i];
+            }
+            if(diff<0){
+                diff+=10;
+                borrow=1;
+            }
+            else borrow=0;
+            result.digits.push_back(diff);
+        }
+        if(thisislarge){
+            result.isNegative=isNegative;
+        }
+        else{
+            result.isNegative=!isNegative;
+        }
+        result.Normalize();
+    }
+    else{
+        int carry=0,i=0,j=0;
+        while(carry>0 || i<digits.size() || j<other.digits.size()){
+            int sum=carry;
+            if(i<digits.size()){
+                sum+=digits[i];
+                i++;
+            }
+            if(j<other.digits.size()){
+                sum+=other.digits[j];
+                j++;
+            }
+            result.digits.push_back(sum%10);
+            carry=sum/10;
+        }
+        result.isNegative = isNegative;
+        result.Normalize();
+    }
+    return result;
+}
