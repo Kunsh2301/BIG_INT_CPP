@@ -11,12 +11,14 @@ class BigInt {
         BigInt();
         BigInt(long long value);
         BigInt(const std::string& value);
+        
         bool operator==(const BigInt& other) const;
         bool operator!=(const BigInt& other) const;
         bool operator<(const BigInt& other) const;
         bool operator>(const BigInt& other) const;
         bool operator<=(const BigInt& other) const;
         bool operator>=(const BigInt& other) const;
+
         BigInt operator+(const BigInt& other) const;
         BigInt operator-(const BigInt& other) const;
         BigInt operator*(const BigInt& other) const;
