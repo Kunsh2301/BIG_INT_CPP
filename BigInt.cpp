@@ -214,3 +214,27 @@ BigInt BigInt::operator-(const BigInt& other) const{
     }
     return result;
 }
+BigInt BigInt::operator*(const BigInt& other) const{
+    BigInt result;
+    result.digits.clear();
+    result.isNegative=(isNegative!=other.isNegative);
+    int n=digits.size(),m=other.digits.size();
+    result.digits.resize(m+n);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            result.digits[i+j]+=digits[i]*other.digits[j];
+            result.digits[i+j+1]+=result.digits[i+j]/10;
+            result.digits[i+j]%=10;
+        }
+    }
+    int i=n+m-1;
+    while(i>=0 && result.digits[i]==0) i--;
+    if(i==-1){
+        result.digits.clear();
+        result.digits.push_back(0);
+        result.isNegative = false;
+        return result;
+    }
+    result.digits.resize(i+1);
+    return result;
+}
