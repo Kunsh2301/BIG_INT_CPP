@@ -1,4 +1,6 @@
 #include"BigInt.hpp"
+#include <stdexcept>
+#include <algorithm>
 BigInt BigInt::operator+(const BigInt& other) const{
     BigInt result;
     result.digits.clear();
@@ -146,4 +148,38 @@ BigInt BigInt::operator*(const BigInt& other) const{
     }
     result.digits.resize(i+1);
     return result;
+}
+BigInt BigInt::operator/(const BigInt& other) const{
+    if(other.digits.size()==1 && other.digits[0]==0){
+        throw std::runtime_error("Division by zero");
+    }
+    BigInt dividend=*this;
+    BigInt divisor=other;
+    dividend.isNegative = false;
+    divisor.isNegative = false;
+    BigInt quotient;
+    quotient.digits.clear();
+    BigInt remainder;
+    quotient.isNegative = false;
+    for(int i=static_cast<int>(dividend.digits.size()-1);i>=0;i--){
+        if(remainder.digits.size()==1 && remainder.digits[0]==0){
+            remainder.digits[0]=dividend.digits[i];
+        }
+        else{
+            remainder.digits.insert(remainder.digits.begin(),dividend.digits[i]);
+        }
+        remainder.Normalize();
+        int quotient_digit=0;
+        while(remainder>=divisor){
+            remainder=remainder-divisor;
+            quotient_digit++;
+        }
+        quotient.digits.push_back(quotient_digit);
+    }
+    reverse(quotient.digits.begin(),quotient.digits.end());
+    quotient.Normalize();
+    if(!(quotient.digits.size()==1 && quotient.digits[0]==0)){
+        quotient.isNegative=(isNegative!=other.isNegative);
+    }
+    return quotient;
 }
