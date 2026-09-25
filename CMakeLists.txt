@@ -15,6 +15,7 @@ target_include_directories(BIG_INT PRIVATE
 add_executable(BIG_INT_TESTS
     tests/test_main.cpp
     tests/Comparison_operators_test.cpp
+    tests/Arithmetic_operators_test.cpp
     src/BigInt.cpp
     src/Arithmetic_operators.cpp
     src/Comparison_operators.cpp
