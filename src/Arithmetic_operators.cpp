@@ -183,3 +183,10 @@ BigInt BigInt::operator/(const BigInt& other) const{
     }
     return quotient;
 }
+BigInt BigInt::operator%(const BigInt& other) const{
+    if(other.digits.size()==1 && other.digits[0]==0){
+        throw std::runtime_error("Division by zero");
+    }
+    BigInt result=*this-(*this/other)*other;
+    return result;
+}
