@@ -11,6 +11,8 @@ class BigInt {
         BigInt();
         BigInt(long long value);
         BigInt(const std::string& value);
+
+        // Comparison operators
         
         bool operator==(const BigInt& other) const;
         bool operator!=(const BigInt& other) const;
@@ -19,11 +21,22 @@ class BigInt {
         bool operator<=(const BigInt& other) const;
         bool operator>=(const BigInt& other) const;
 
+        // Arithmetic operators
+
         BigInt operator+(const BigInt& other) const;
         BigInt operator-(const BigInt& other) const;
         BigInt operator*(const BigInt& other) const;
         BigInt operator/(const BigInt& other) const;
         BigInt operator%(const BigInt& other) const;
+
+        // Arithmetic assignment operators
+
+        BigInt& operator+=(const BigInt& other); 
+        BigInt& operator-=(const BigInt& other); 
+        BigInt& operator*=(const BigInt& other); 
+        BigInt& operator/=(const BigInt& other); 
+        BigInt& operator%=(const BigInt& other); 
+
         void print() const;
 };
 #endif
