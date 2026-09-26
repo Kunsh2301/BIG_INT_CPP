@@ -6,6 +6,7 @@ set(SOURCE_FILES
     src/Arithmetic_operators.cpp
     src/Comparison_operators.cpp
     src/Arithmetic_assignment_operators.cpp
+    src/IO_operators.cpp
 )
 add_executable(BIG_INT ${SOURCE_FILES})
 
@@ -18,10 +19,12 @@ add_executable(BIG_INT_TESTS
     tests/Comparison_operators_test.cpp
     tests/Arithmetic_operators_test.cpp
     tests/Arithmetic_assignment_operators_test.cpp
+    tests/IO_operators_test.cpp
     src/BigInt.cpp
     src/Arithmetic_operators.cpp
     src/Comparison_operators.cpp
     src/Arithmetic_assignment_operators.cpp
+    src/IO_operators.cpp
 )
 
 target_include_directories(BIG_INT_TESTS PRIVATE
