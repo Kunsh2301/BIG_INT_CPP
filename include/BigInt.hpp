@@ -43,6 +43,15 @@ public:
 
     friend std::ostream& operator<<(std::ostream &os, const BigInt &value);
     friend std::istream& operator>>(std::istream &is, BigInt &value);
+
+    // Unary operators
+
+    BigInt operator-()const;
+    BigInt operator+()const;
+    BigInt& operator++();
+    BigInt& operator--();
+    BigInt operator++(int);
+    BigInt operator--(int);
     
 };
 #endif
