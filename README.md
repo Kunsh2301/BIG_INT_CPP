@@ -4,10 +4,22 @@ BIG_INT_CPP is a C++ project that implements a `BigInt` type for working with la
 
 This guide is for Windows users who are new to C++ or CMake. Follow one compiler setup below; you do not need to install every compiler.
 
+## Features
+
+- Represent signed whole numbers larger than the built-in `long long` range using a decimal-digit representation.
+- Construct values from `long long` integers or decimal strings, including negative values.
+- Perform addition, subtraction, multiplication, integer division, and remainder.
+- Compare values with `==`, `!=`, `<`, `>`, `<=`, and `>=`.
+- Use compound arithmetic assignments (`+=`, `-=`, `*=`, `/=`, `%=`), unary signs, and prefix/postfix increment and decrement.
+- Read and print values with stream operators (`>>` and `<<`). Invalid input sets the stream's failure state; division or remainder by zero throws an exception.
+- Run an interactive terminal demo that accepts two values and walks through the supported operators.
+- Build with CMake and run the included tests through CTest; no third-party C++ libraries are required.
+
 ## What you need
 
 - **Windows 10 or later**, 64-bit.
-- **CMake 4.3.3 or newer.** CMake reads the project build instructions and generates build files for your compiler.
+- **CMake 3.10 or newer.** CMake reads the project build instructions and generates build files for your compiler.
+- A compiler with **C++11** support.
 - **One C++ compiler toolchain** (compiler plus its build tools). The configurations checked for this project are:
 
   | Toolchain | Notes |
@@ -37,7 +49,7 @@ If you downloaded a ZIP instead, extract it and open a terminal in the extracted
 ### Install and check the tools
 
 1. Install Visual Studio and select the **Desktop development with C++** workload in the Visual Studio Installer. This installs MSVC, the Windows SDK, and the Visual Studio build tools.
-2. Install CMake 4.3.3 or newer and make sure `cmake` is available on your `PATH`.
+2. Install CMake 3.10 or newer and make sure `cmake` is available on your `PATH`.
 3. Open **Developer PowerShell for Visual Studio** from the Start menu. This sets up the MSVC environment for the terminal.
 4. Check that CMake is available:
 
