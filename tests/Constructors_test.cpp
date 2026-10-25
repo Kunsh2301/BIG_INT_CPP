@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 namespace
@@ -21,6 +22,21 @@ namespace
         std::ostringstream output;
         output << value;
         expectTrue(name, output.str() == expected);
+    }
+
+    void expectInvalidString(const std::string &name, const std::string &input)
+    {
+        bool threwInvalidArgument = false;
+        try
+        {
+            const BigInt value(input);
+            (void)value;
+        }
+        catch (const std::invalid_argument &)
+        {
+            threwInvalidArgument = true;
+        }
+        expectTrue(name, threwInvalidArgument);
     }
 
     void test_default_constructor()
@@ -71,6 +87,14 @@ namespace
         expectString("negative zero is normalized", BigInt("-0"), "0");
         expectString("negative zero with leading zeros is normalized", BigInt("-000000"), "0");
     }
+
+    void test_string_constructor_rejects_invalid_values()
+    {
+        expectInvalidString("empty string is rejected", "");
+        expectInvalidString("minus sign without digits is rejected", "-");
+        expectInvalidString("non-digit characters are rejected", "12a3");
+        expectInvalidString("plus sign is rejected", "+123");
+    }
 } // namespace
 
 void run_all_constructor_tests()
@@ -80,6 +104,7 @@ void run_all_constructor_tests()
     test_numeric_constructor_large_and_boundary_values();
     test_string_constructor_values();
     test_string_constructor_normalization_and_zero_edges();
+    test_string_constructor_rejects_invalid_values();
 
     std::cout << "All constructor tests passed." << std::endl;
 }

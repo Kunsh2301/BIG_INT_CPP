@@ -1,5 +1,6 @@
 #include "BigInt.hpp"
 #include <iostream>
+#include <stdexcept>
 BigInt::BigInt()
 {
     digits.push_back(0);
@@ -32,15 +33,26 @@ BigInt::BigInt(long long value)
 BigInt::BigInt(const std::string &value)
 {
     isNegative = false;
-    int start = 0;
-    if (value[0] == '-')
+    std::string::size_type start = 0;
+    if (!value.empty() && value[0] == '-')
     {
         isNegative = true;
         start = 1;
     }
-    for (int i = static_cast<int>(value.size()) - 1; i >= start; i--)
+    if (start == value.size())
     {
-        digits.push_back(value[i] - '0');
+        throw std::invalid_argument("BigInt string must contain decimal digits");
+    }
+    for (std::string::size_type i = start; i < value.size(); ++i)
+    {
+        if (value[i] < '0' || value[i] > '9')
+        {
+            throw std::invalid_argument("BigInt string must contain only decimal digits");
+        }
+    }
+    for (std::string::size_type i = value.size(); i > start; --i)
+    {
+        digits.push_back(value[i - 1] - '0');
     }
     Normalize();
 }

@@ -111,6 +111,26 @@ namespace
         expectTrue("third token reads correctly", c == BigInt("789"));
     }
 
+    void test_invalid_input_sets_failbit_without_changing_value()
+    {
+        std::istringstream invalidInput("12x3");
+        BigInt value("456");
+        invalidInput >> value;
+        expectTrue("malformed input sets failbit", invalidInput.fail());
+        expectTrue("malformed input leaves destination unchanged", value == BigInt("456"));
+
+        std::istringstream signOnlyInput("-");
+        signOnlyInput >> value;
+        expectTrue("sign without digits sets failbit", signOnlyInput.fail());
+        expectTrue("sign without digits leaves destination unchanged", value == BigInt("456"));
+
+        std::istringstream emptyInput;
+        BigInt emptyValue("789");
+        emptyInput >> emptyValue;
+        expectTrue("empty input sets failbit", emptyInput.fail());
+        expectTrue("empty input leaves destination unchanged", emptyValue == BigInt("789"));
+    }
+
     void test_round_trip_consistency()
     {
         const BigInt original("12345678901234567890");
@@ -141,6 +161,7 @@ void run_all_io_tests()
     test_input_basic_values();
     test_input_large_values();
     test_input_with_whitespace();
+    test_invalid_input_sets_failbit_without_changing_value();
     test_round_trip_consistency();
 
     std::cout << "All IO operator tests passed." << std::endl;
