@@ -7,24 +7,26 @@ BigInt::BigInt()
 }
 BigInt::BigInt(long long value)
 {
+    unsigned long long magnitude;
     if (value < 0)
     {
         isNegative = true;
-        value = -value;
+        magnitude = static_cast<unsigned long long>(-(value + 1)) + 1;
     }
     else
     {
         isNegative = false;
+        magnitude = static_cast<unsigned long long>(value);
     }
-    if (value == 0)
+    if (magnitude == 0)
     {
         digits.push_back(0);
         return;
     }
-    while (value > 0)
+    while (magnitude > 0)
     {
-        digits.push_back(value % 10);
-        value /= 10;
+        digits.push_back(static_cast<int>(magnitude % 10));
+        magnitude /= 10;
     }
 }
 BigInt::BigInt(const std::string &value)

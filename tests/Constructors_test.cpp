@@ -46,9 +46,8 @@ namespace
                      BigInt(-1234567890123456789LL), "-1234567890123456789");
         expectString("long long maximum is preserved",
                      BigInt(std::numeric_limits<long long>::max()), "9223372036854775807");
-        expectString("largest-magnitude supported negative long long is preserved",
-                     BigInt(std::numeric_limits<long long>::min() + 1),
-                     "-9223372036854775807");
+        expectString("long long minimum is preserved",
+                     BigInt(std::numeric_limits<long long>::min()), "-9223372036854775808");
     }
 
     void test_string_constructor_values()
