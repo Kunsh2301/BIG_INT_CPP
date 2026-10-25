@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 4.3.3)
 project(BIG_INT LANGUAGES CXX)
-set(SOURCE_FILES
-    main.cpp 
+add_library(BIG_INT_LIBRARY
     src/Constructors.cpp
     src/Arithmetic_operators.cpp
     src/Comparison_operators.cpp
@@ -9,11 +8,13 @@ set(SOURCE_FILES
     src/IO_operators.cpp
     src/Unary_operators.cpp
 )
-add_executable(BIG_INT ${SOURCE_FILES})
 
-target_include_directories(BIG_INT PRIVATE
+target_include_directories(BIG_INT_LIBRARY PUBLIC
     ${PROJECT_SOURCE_DIR}/include
 )
+
+add_executable(BIG_INT main.cpp)
+target_link_libraries(BIG_INT PRIVATE BIG_INT_LIBRARY)
 
 add_executable(BIG_INT_TESTS
     tests/test_main.cpp
@@ -23,16 +24,5 @@ add_executable(BIG_INT_TESTS
     tests/Arithmetic_assignment_operators_test.cpp
     tests/IO_operators_test.cpp
     tests/Unary_operators_test.cpp
-    src/Constructors.cpp
-    src/Arithmetic_operators.cpp
-    src/Comparison_operators.cpp
-    src/Arithmetic_assignment_operators.cpp
-    src/IO_operators.cpp
-    src/Unary_operators.cpp
 )
-
-target_include_directories(BIG_INT_TESTS PRIVATE
-
-    ${PROJECT_SOURCE_DIR}/include
-
-)
+target_link_libraries(BIG_INT_TESTS PRIVATE BIG_INT_LIBRARY)
