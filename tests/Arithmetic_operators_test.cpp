@@ -1,6 +1,7 @@
 #include "BigInt.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <random>
 #include <stdexcept>
 #include <string>
 
@@ -94,6 +95,39 @@ namespace
         expectTrue("very large * 0 == 0", (v1 * BigInt("0")) == BigInt("0"));
     }
 
+    void test_deterministic_random_arithmetic_cases()
+    {
+        std::mt19937 generator(0xB16B00B5U);
+        std::uniform_int_distribution<int> distribution(-1000000, 1000000);
+
+        for (int i = 0; i < 500; ++i)
+        {
+            const int left = distribution(generator);
+            int right = distribution(generator);
+            if (right == 0)
+            {
+                right = 1;
+            }
+
+            const BigInt a(std::to_string(left));
+            const BigInt b(std::to_string(right));
+            const std::string caseName = "random arithmetic case " + std::to_string(i)
+                                         + " (" + std::to_string(left) + ", "
+                                         + std::to_string(right) + ")";
+
+            expectTrue(caseName + " addition",
+                       (a + b) == BigInt(std::to_string(static_cast<long long>(left) + right)));
+            expectTrue(caseName + " subtraction",
+                       (a - b) == BigInt(std::to_string(static_cast<long long>(left) - right)));
+            expectTrue(caseName + " multiplication",
+                       (a * b) == BigInt(std::to_string(static_cast<long long>(left) * right)));
+            expectTrue(caseName + " division",
+                       (a / b) == BigInt(std::to_string(left / right)));
+            expectTrue(caseName + " remainder",
+                       (a % b) == BigInt(std::to_string(left % right)));
+        }
+    }
+
     void test_division_by_zero_throws()
     {
         const BigInt zero(0);
@@ -141,6 +175,7 @@ void run_all_arithmetic_tests()
     test_large_addition_and_subtraction();
     test_large_multiplication_and_division();
     test_very_large_number_cases();
+    test_deterministic_random_arithmetic_cases();
     test_division_by_zero_throws();
 
     std::cout << "All arithmetic operator tests passed." << std::endl;
