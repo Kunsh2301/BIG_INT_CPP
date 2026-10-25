@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 4.3.3)
 project(BIG_INT LANGUAGES CXX)
+
+enable_testing()
+
 add_library(BIG_INT_LIBRARY
     src/Constructors.cpp
     src/Arithmetic_operators.cpp
@@ -26,3 +29,5 @@ add_executable(BIG_INT_TESTS
     tests/Unary_operators_test.cpp
 )
 target_link_libraries(BIG_INT_TESTS PRIVATE BIG_INT_LIBRARY)
+
+add_test(NAME BIG_INT_TESTS COMMAND BIG_INT_TESTS)
